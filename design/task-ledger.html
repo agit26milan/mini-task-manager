@@ -1,0 +1,450 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8">
+<title>Mini Task Manager &#8212; Task Ledger (mockup)</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F6F4EF; --paper2:#FFFDF9; --paper3:#EFEBE3;
+  --ink:#15181B; --ink2:#4C5259; --ink3:#8C9298; --line:#E0DBD1; --line2:#CFC9BC;
+  --accent:#1F3DFF; --accent-bg:#E7EBFF;
+  --todo:#6B7280; --todo-bg:#ECEDEF;
+  --pend:#9A6A05; --pend-bg:#FBF0D6;
+  --prog:#1D4ED8; --prog-bg:#E3EBFF;
+  --done:#166534; --done-bg:#E1F2E6;
+  --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+body{background:var(--paper);font-family:var(--sans);color:var(--ink);width:max-content;min-width:3980px;
+  padding:54px 54px 70px;position:relative}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(21,24,27,.055) 1px,transparent 1px);background-size:3px 3px}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1100px 520px at 12% -8%,rgba(31,61,255,.07),transparent 60%)}
+.pgtitle{position:relative;z-index:1;margin-bottom:34px}
+.pgtitle .k{font:600 11.5px/1 var(--mono);letter-spacing:.22em;color:var(--ink3);text-transform:uppercase}
+.pgtitle h1{font:400 52px/1.05 var(--serif);letter-spacing:-.015em;margin:12px 0 10px}
+.pgtitle .s{font-size:14px;color:var(--ink2);max-width:1080px;line-height:1.6}
+.pgtitle .s b{background:var(--accent-bg);padding:1px 6px;border-radius:4px;font-weight:600}
+.rail{display:flex;gap:30px;align-items:flex-start;position:relative;z-index:1;flex-wrap:wrap;max-width:3920px}
+.col{display:flex;flex-direction:column;gap:10px}
+.flabel{display:flex;align-items:baseline;gap:10px}
+.flabel .n{font:400 26px/1 var(--serif);color:var(--ink3)}
+.flabel .t{font:600 11.5px/1 var(--mono);letter-spacing:.17em;text-transform:uppercase;color:var(--ink2)}
+.flabel .d{font-size:12px;color:var(--ink3)}
+.phone{width:1280px;height:862px;background:var(--paper2);border:1px solid var(--line2);border-radius:13px;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 34px 64px -26px rgba(21,24,27,.30),0 1px 0 #fff inset;position:relative}
+.wtop{height:37px;flex:0 0 37px;background:var(--paper3);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;padding:0 15px}
+.wtop i{width:9px;height:9px;border-radius:50%;background:var(--line2);display:block}
+.wtop i:first-child{background:#D8CFC2}
+.url{flex:1;text-align:center;font:11.5px/1 var(--mono);color:var(--ink3);background:var(--paper2);
+  border:1px solid var(--line);border-radius:7px;padding:5px 10px;max-width:420px;margin:0 auto}
+.app{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.mast{display:flex;align-items:flex-end;gap:26px;padding:26px 34px 20px;border-bottom:1px solid var(--line)}
+.mbrand .k{font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--ink3)}
+.mbrand h1{font:400 46px/1 var(--serif);letter-spacing:-.02em;margin-top:9px}
+.mstats{margin-left:auto;text-align:right}
+.mstats .b{font:400 62px/1 var(--serif);letter-spacing:-.03em;display:block}
+.mstats .c{font:600 10.5px/1 var(--mono);letter-spacing:.16em;color:var(--ink3);text-transform:uppercase;margin-top:7px}
+.mactor{width:266px}
+.mactor label{font:600 10.5px/1 var(--mono);letter-spacing:.16em;color:var(--ink3);display:block;margin-bottom:8px}
+.select{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--ink);border-radius:9px;
+  padding:11px 13px;font:13.5px/1 var(--mono);background:var(--paper2);box-shadow:0 0 0 3px var(--accent-bg)}
+.select b{color:var(--ink3);font-weight:400}
+.mactor .h{font-size:11px;color:var(--ink3);margin-top:7px;line-height:1.45}
+.tools{display:flex;align-items:center;gap:10px;padding:15px 34px;border-bottom:1px solid var(--line);background:#FCFAF6}
+.tools .sp{flex:1}
+.chip{font:11px/1 var(--mono);letter-spacing:.08em;border:1px solid var(--line2);border-radius:999px;padding:8px 13px;color:var(--ink2);background:var(--paper2);text-transform:uppercase}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.search{flex:1;max-width:330px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:12.5px/1 var(--mono);color:var(--ink3);background:var(--paper2)}
+.btn{font:600 12px/1 var(--sans);letter-spacing:.02em;border:1px solid var(--line2);background:var(--paper2);
+  border-radius:8px;padding:10px 14px;color:var(--ink);white-space:nowrap}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 16px -8px rgba(31,61,255,.6)}
+.btn.next{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.gho{color:var(--ink2)}
+.btn.del{color:#9A3412;border-color:#EFD9CC;background:#FFF7F2}
+.btn.off{color:var(--ink3);background:var(--paper3);border-color:var(--line);text-decoration:line-through}
+.ladder{display:flex;gap:0;align-items:flex-start;margin:13px 0 0}
+.seg{flex:1;padding-right:9px}
+.seg:last-child{padding-right:0}
+.seg .bar{height:7px;border-radius:4px;background:var(--line);position:relative}
+.seg .lab{font:10.5px/1 var(--mono);letter-spacing:.1em;color:var(--ink3);margin-top:7px;display:block}
+.seg.done .bar{background:var(--ink3)}
+.seg.cur .bar{background:var(--accent)}
+.seg.cur .lab{color:var(--ink);font-weight:600}
+.seg.next .bar{background:repeating-linear-gradient(90deg,var(--accent) 0 5px,transparent 5px 10px)}
+.seg.next .lab{color:var(--accent);font-weight:600}
+.seg.blocked .bar{background:repeating-linear-gradient(135deg,#E6C9B4 0 4px,transparent 4px 8px)}
+.seg.blocked .lab{color:#9A3412}
+.arw{font:12px/1 var(--mono);color:var(--accent)}
+.body{flex:1;min-height:0;display:flex;overflow:hidden}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.strip{display:flex;border-bottom:1px solid var(--line)}
+.tile{flex:1;padding:16px 22px;border-right:1px solid var(--line)}
+.tile:last-child{border-right:0}
+.tile .n{font:400 34px/1 var(--serif);letter-spacing:-.02em}
+.tile .l{font:600 10px/1 var(--mono);letter-spacing:.16em;color:var(--ink3);margin-top:8px;text-transform:uppercase}
+.tile.a .n{color:var(--pend)} .tile.b .n{color:var(--prog)} .tile.c .n{color:var(--done)}
+.list{flex:1;overflow:hidden;padding:20px 34px 0 30px;border-left:3px solid var(--ink);margin:20px 34px 0;position:relative}
+.row{display:flex;gap:22px;align-items:flex-start;padding:18px 18px 18px 20px;border:1px solid transparent;border-bottom:1px solid var(--line);position:relative}
+.row:last-child{border-bottom:0}
+.row:before{content:"";position:absolute;left:-31px;top:30px;width:9px;height:9px;background:var(--paper2);border:2px solid var(--ink);border-radius:2px;transform:rotate(45deg)}
+.row.hov{background:#FCFAF6;border:1px solid var(--line2);border-radius:11px;box-shadow:0 12px 26px -18px rgba(21,24,27,.4)}
+.rmain{flex:1;min-width:0}
+.rtop{display:flex;align-items:center;gap:12px}
+.id{font:11px/1 var(--mono);letter-spacing:.06em;color:var(--ink3);border:1px solid var(--line);border-radius:5px;padding:4px 7px}
+.rtop h3{font:600 19px/1.2 var(--sans);letter-spacing:-.01em}
+.pill{margin-left:auto;font:600 10.5px/1 var(--mono);letter-spacing:.13em;border-radius:999px;padding:6px 11px;text-transform:uppercase}
+.pill.to_do{background:var(--todo-bg);color:var(--todo)} .pill.pending{background:var(--pend-bg);color:var(--pend)}
+.pill.in_progress{background:var(--prog-bg);color:var(--prog)} .pill.done{background:var(--done-bg);color:var(--done)}
+.pill.sm{font-size:10px;padding:5px 9px}
+.rdesc{font-size:13px;color:var(--ink2);margin-top:9px;line-height:1.5;max-width:640px}
+.rmeta{font:11.5px/1.5 var(--mono);color:var(--ink3);margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rmeta b{color:var(--ink2);font-weight:600}
+.mv{background:var(--paper3);border-radius:5px;padding:3px 7px;color:var(--ink2)}
+.ract{display:flex;flex-direction:column;gap:8px;align-items:stretch;width:158px;padding-top:2px}
+.ract .btn{text-align:center}
+.ract .btn.del{border-style:dashed}
+.scrim{position:absolute;inset:0;background:rgba(14,16,20,.42)}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:486px;background:var(--paper2);border-left:1px solid var(--line2);
+  box-shadow:-30px 0 60px -30px rgba(21,24,27,.45);display:flex;flex-direction:column}
+.dhead{padding:22px 24px 16px;border-bottom:1px solid var(--line)}
+.dhead .kk{font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--ink3)}
+.dhead h2{font:400 27px/1.15 var(--serif);margin:10px 0 0;letter-spacing:-.02em}
+.dhead .sub{font:11.5px/1.5 var(--mono);color:var(--ink2);margin-top:9px}
+.lock{display:inline-flex;align-items:center;gap:7px;margin-top:13px;background:var(--ink);color:#fff;border-radius:6px;padding:6px 10px;font:600 10px/1 var(--mono);letter-spacing:.14em}
+.tl{list-style:none;padding:20px 24px 0;overflow:hidden}
+.tl li{display:flex;gap:14px;position:relative;padding-bottom:20px}
+.tl li:before{content:"";position:absolute;left:63px;top:20px;bottom:-4px;width:1px;background:var(--line2)}
+.tl li:last-child:before{display:none}
+.tlt{width:44px;font:11.5px/1.6 var(--mono);color:var(--ink3);text-align:right;padding-top:2px}
+.who{width:26px;height:26px;flex:0 0 26px;border-radius:7px;background:var(--ink);color:#fff;font:600 10.5px/26px var(--mono);text-align:center;position:relative;z-index:1}
+.who.am{background:var(--prog)} .who.bs{background:var(--pend)} .who.sy{background:var(--ink3)}
+.tlb{flex:1;min-width:0}
+.tlb .n{font:600 13px/1.3 var(--sans)}
+.tlb .ch{display:flex;align-items:center;gap:8px;margin-top:9px}
+.tlb .t{font:11px/1 var(--mono);color:var(--ink3);margin-top:8px}
+.tlb .note{font-size:12px;color:var(--ink2);margin-top:7px;background:var(--paper3);border-radius:6px;padding:8px 10px;line-height:1.45}
+.dfoot{margin-top:auto;padding:16px 24px;border-top:1px solid var(--line);font:11px/1.6 var(--mono);color:var(--ink3);background:#FCFAF6}
+.toast{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;display:flex;align-items:center;gap:12px;
+  background:var(--ink);color:#fff;border-radius:10px;padding:13px 17px;box-shadow:0 20px 40px -18px rgba(21,24,27,.6)}
+.toast .tk{font:600 11px/1 var(--mono);letter-spacing:.14em}
+.toast .td{font:12px/1.4 var(--sans);color:#C9CDD3;border-left:1px solid #3A3F46;padding-left:12px}
+.toast.warn{background:#7C2D12}
+.flow{flex:1;display:flex;gap:0;min-height:0}
+.pan{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--line);position:relative;overflow:hidden}
+.pan:last-child{border-right:0}
+.pan .ph{padding:18px 22px 14px;border-bottom:1px solid var(--line);background:#FCFAF6}
+.pan .ph .n{font:600 10.5px/1 var(--mono);letter-spacing:.18em;color:var(--ink3)}
+.pan .ph h4{font:400 21px/1.2 var(--serif);margin-top:8px}
+.pan .pb{flex:1;padding:20px 22px;overflow:hidden}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--paper2)}
+.card + .card{margin-top:14px}
+.card .ct{font:600 10.5px/1 var(--mono);letter-spacing:.15em;color:var(--ink3);margin-bottom:11px}
+.kv{display:flex;justify-content:space-between;gap:12px;font:11.5px/1.9 var(--mono);color:var(--ink2)}
+.kv b{color:var(--ink)}
+.note{font-size:12px;color:var(--ink2);line-height:1.55}
+.rule{display:flex;gap:11px;align-items:baseline;font:11.5px/1.7 var(--mono);padding:9px 0;border-bottom:1px dashed var(--line)}
+.rule:last-child{border-bottom:0}
+.code{font:600 11px/1 var(--mono);border-radius:5px;padding:5px 8px;white-space:nowrap;background:var(--paper3);color:var(--ink)}
+.code.ok{background:var(--done-bg);color:var(--done)} .code.err{background:#FBE4DC;color:#9A3412}
+.phone.mob{width:390px;height:862px}
+.phone.mob .mast{padding:18px 20px 14px;gap:14px;align-items:center}
+.phone.mob .mbrand h1{font-size:27px;margin-top:6px}
+.phone.mob .mstats{display:none}
+.phone.mob .mactor{width:150px}
+.phone.mob .tools{padding:12px 20px;gap:8px;flex-wrap:wrap}
+.phone.mob .search{max-width:none;order:3;flex:1 0 100%}
+.phone.mob .strip .tile{padding:12px 14px}
+.phone.mob .tile .n{font-size:24px}
+.phone.mob .list{margin:16px 20px 0 18px;padding:0 0 0 4px}
+.phone.mob .row{flex-direction:column;gap:14px;padding:16px 12px 16px 16px}
+.phone.mob .ract{flex-direction:row;width:auto}
+.phone.mob .ladder{margin-top:14px}
+.phone.mob .seg .lab{font-size:9px;letter-spacing:.04em}
+.phone.mob .rdesc{max-width:none}
+.spec{margin-top:52px;position:relative;z-index:1;width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.spec .shead{grid-column:1/-1}
+.spec .shead .k{font:600 11.5px/1 var(--mono);letter-spacing:.22em;color:var(--ink3);text-transform:uppercase}
+.spec .shead h2{font:400 42px/1.1 var(--serif);letter-spacing:-.02em;margin:10px 0 8px}
+.spec .shead p{font-size:13.5px;color:var(--ink2);max-width:960px;line-height:1.6}
+.sc{border:1px solid var(--line2);border-radius:12px;background:var(--paper2);padding:20px 22px;box-shadow:0 14px 30px -24px rgba(21,24,27,.4)}
+.sc h3{font:400 21px/1.2 var(--serif);margin-bottom:4px}
+.sc .tag{font:600 10px/1 var(--mono);letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+.sc p,.sc li{font-size:12.5px;color:var(--ink2);line-height:1.6}
+.sc ul{list-style:none;margin-top:9px}
+.sc li{padding-left:14px;position:relative;margin-bottom:6px}
+.sc li:before{content:"—";position:absolute;left:0;color:var(--ink3)}
+.sc .mono{font:11.5px/1.7 var(--mono);color:var(--ink2)}
+table.s{width:100%;border-collapse:collapse;margin-top:10px}
+table.s th,table.s td{text-align:left;font:11px/1.5 var(--mono);padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.s th{font-weight:600;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase;font-size:10px}
+table.s td b{font-family:var(--sans);font-size:12px}
+.sw{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:-2px;margin-right:7px}
+.hi{background:var(--accent-bg);color:var(--accent);border-radius:4px;padding:1px 5px;font-weight:600}
+.sc.wide{grid-column:span 2}
+
+.chip b{font-weight:600;margin-left:7px}
+.chip.on b{color:#fff;opacity:.7}
+.row{padding:14px 18px}
+.rdesc{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.lfoot{margin-top:auto;border-top:1px solid var(--line);background:#FCFAF6;padding:11px 34px;display:flex;
+  gap:20px;align-items:center;font:11px/1.5 var(--mono);color:var(--ink3)}
+.lfoot b{color:var(--ink2)}
+.rfoot{border-top:1px solid var(--line);background:#FCFAF6;padding:15px 22px;display:flex;gap:26px}
+.rfoot .rw{flex:1;min-width:0}
+.phone.mob .ract .btn{font-size:10.5px;padding:9px 10px}
+.phone.mob .rtop h3{font-size:15px}
+.phone.mob .row{padding:13px 10px 13px 14px}
+.phone.mob .lfoot{padding:10px 20px;font-size:10px}
+.phone.mob .mast{flex-direction:column;align-items:stretch;gap:12px;padding:16px 18px 14px}
+.phone.mob .mbrand .k{font-size:9.5px;letter-spacing:.12em}
+.phone.mob .mactor{width:auto}
+.phone.mob .mactor label{margin-bottom:6px}
+.phone.mob .select{padding:9px 11px;font-size:12.5px}
+.phone.mob .mactor .h{font-size:10px;margin-top:5px}
+.phone.mob .tools{padding:10px 16px;gap:7px;flex-wrap:wrap}
+.phone.mob .chip{font-size:10px;padding:6px 10px}
+.phone.mob .search{display:none}
+.phone.mob .btn.pri{padding:9px 12px;font-size:11px}
+.phone.mob .rmeta{font-size:10.5px}
+.phone.wide{width:1750px}
+.card .mnote{margin-top:13px}
+.erd{font:10.5px/1.5 var(--mono);color:var(--ink2);white-space:pre;background:var(--paper3);
+  border:1px solid var(--line);border-radius:9px;padding:14px;overflow:hidden}
+.snapshot{color:var(--accent);font-weight:600}
+</style></head><body>
+<div class="pgtitle">
+  <div class="k">MOCKUP &middot; ARAH DESAIN: &#8220;TASK LEDGER&#8221; (EDITORIAL-SWISS, TERANG)</div>
+  <h1>Kejelasan perubahan sebagai bentuk visual</h1>
+  <div class="s">Produknya bukan daftar tugas &#8212; produknya <b>jejak perubahan</b>. Sebab itu status digambar sebagai
+  <b>angkah 4 langkah</b> yang memperlihatkan mesin statusnya (dan mengapa tidak bisa mundur), dan tiap baris membawa
+  <b>satu baris riwayat terakhir</b> sehingga &#8220;siapa mengubah apa&#8221; terjawab sebelum satu klik pun.
+  Keputusan backend (idempoten, append-only, satu langkah) masing-masing punya wujud di layar &#8212; mockup ini artefak keputusan,
+  bukan gambar hiasan.</div>
+</div>
+<div class="rail"><div class="col"><div class="flabel"><span class="n">01</span><span class="t">DAFTAR TASK</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">satu layar menjawab &#8220;siapa mengubah apa&#8221; tanpa satu klik</div><div class="phone"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/tasks</div><i style="opacity:0"></i></div><div class="app"><header class="mast">
+  <div class="mbrand"><div class="k">MINI TASK MANAGER · INTERNAL</div><h1>Task Ledger</h1></div>
+  <div class="mstats"><span class="b">12</span><span class="c">gerakan tercatat</span></div>
+  <div class="mactor"><label>BERTINDAK SEBAGAI</label>
+    <div class="select">john.doe <b>&#9662;</b></div>
+    <div class="h">actor dari daftar tetap &middot; server menolak <b style="font-family:var(--mono)">422</b> kalau tak dikenal</div>
+  </div>
+</header><div class="tools"><span class="chip on">Semua <b>4</b></span><span class="chip">TO_DO <b>1</b></span><span class="chip">PENDING <b>1</b></span><span class="chip">IN_PROGRESS <b>1</b></span><span class="chip">DONE <b>1</b></span><span class="sp"></span>
+  <span class="search">cari judul / #id&#8230;</span><span class="btn pri">+ TASK BARU</span></div><div class="body"><div class="main"><div class="list"><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1042</span><h3>Prepare Invoice</h3><span class="pill pending">PENDING</span></div>
+    <p class="rdesc">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg cur"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg next"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>john.doe</b> <span class="mv">to_do &#8594; pending</span> &middot; 09:41 &middot; 3 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; KERJAKAN</span><span class="btn gho">RIWAYAT (3)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row hov">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1041</span><h3>Audit hak akses NAS</h3><span class="pill in_progress">IN_PROGRESS</span></div>
+    <p class="rdesc">Cek akun yang masih aktif setelah rotasi tim infra (12 akun).</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>ana.maria</b> <span class="mv">pending &#8594; in_progress</span> &middot; 10:00 &middot; 3 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; SELESAIKAN</span><span class="btn gho">RIWAYAT (3)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1040</span><h3>Migrasi log server ke cold storage</h3><span class="pill to_do">TO_DO</span></div>
+    <p class="rdesc">Skema retensi 90 hari, target biaya turun 30%.</p>
+    <div class="ladder"><div class="seg cur"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg next"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>budi.santoso</b> <span class="mv">dibuat</span> &middot; 09:12 &middot; 1 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; MULAI PROSES</span><span class="btn gho">RIWAYAT (1)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1039</span><h3>Perbaiki template email onboarding</h3><span class="pill done">DONE</span></div>
+    <p class="rdesc">CTA rusak di klien Outlook 2019.</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg done"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg cur"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>john.doe</b> <span class="mv">in_progress &#8594; done</span> &middot; 08:55 &middot; 5 entri log</div>
+  </div>
+  <div class="ract"><span class="btn off">SUDAH SELESAI</span><span class="btn gho">RIWAYAT (5)</span><span class="btn del">HAPUS</span></div>
+</article></div><div class="lfoot"><b>TANPA KLIK:</b> tiap baris sudah memuat pelaku + arah perubahan terakhir <span class="mv">pending &#8594; in_progress</span> &middot; waktu &amp; id memakai mono &middot; tombol RIWAYAT menyebut jumlah entri yang sama dengan chip <b>Semua 4</b></div></div></div></div></div></div><div class="col"><div class="flabel"><span class="n">02</span><span class="t">RIWAYAT / AUDIT LOG</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">kronologis naik &middot; append-only &middot; per task</div><div class="phone"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/tasks</div><i style="opacity:0"></i></div><div class="app"><header class="mast">
+  <div class="mbrand"><div class="k">MINI TASK MANAGER · INTERNAL</div><h1>Task Ledger</h1></div>
+  <div class="mstats"><span class="b">12</span><span class="c">gerakan tercatat</span></div>
+  <div class="mactor"><label>BERTINDAK SEBAGAI</label>
+    <div class="select">john.doe <b>&#9662;</b></div>
+    <div class="h">actor dari daftar tetap &middot; server menolak <b style="font-family:var(--mono)">422</b> kalau tak dikenal</div>
+  </div>
+</header><div class="tools"><span class="chip on">Semua <b>4</b></span><span class="chip">TO_DO <b>1</b></span><span class="chip">PENDING <b>1</b></span><span class="chip">IN_PROGRESS <b>1</b></span><span class="chip">DONE <b>1</b></span><span class="sp"></span>
+  <span class="search">cari judul / #id&#8230;</span><span class="btn pri">+ TASK BARU</span></div><div class="body"><div class="main"><div class="list"><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1042</span><h3>Prepare Invoice</h3><span class="pill pending">PENDING</span></div>
+    <p class="rdesc">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg cur"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg next"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>john.doe</b> <span class="mv">to_do &#8594; pending</span> &middot; 09:41 &middot; 3 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; KERJAKAN</span><span class="btn gho">RIWAYAT (3)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1041</span><h3>Audit hak akses NAS</h3><span class="pill in_progress">IN_PROGRESS</span></div>
+    <p class="rdesc">Cek akun yang masih aktif setelah rotasi tim infra (12 akun).</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>ana.maria</b> <span class="mv">pending &#8594; in_progress</span> &middot; 10:00 &middot; 3 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; SELESAIKAN</span><span class="btn gho">RIWAYAT (3)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1040</span><h3>Migrasi log server ke cold storage</h3><span class="pill to_do">TO_DO</span></div>
+    <p class="rdesc">Skema retensi 90 hari, target biaya turun 30%.</p>
+    <div class="ladder"><div class="seg cur"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg next"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>budi.santoso</b> <span class="mv">dibuat</span> &middot; 09:12 &middot; 1 entri log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; MULAI PROSES</span><span class="btn gho">RIWAYAT (1)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1039</span><h3>Perbaiki template email onboarding</h3><span class="pill done">DONE</span></div>
+    <p class="rdesc">CTA rusak di klien Outlook 2019.</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg done"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg cur"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta">terakhir <b>john.doe</b> <span class="mv">in_progress &#8594; done</span> &middot; 08:55 &middot; 5 entri log</div>
+  </div>
+  <div class="ract"><span class="btn off">SUDAH SELESAI</span><span class="btn gho">RIWAYAT (5)</span><span class="btn del">HAPUS</span></div>
+</article></div><div class="lfoot"><b>MODE:</b> panel riwayat menutupi daftar, bukan menggantikan layar</div></div><div class="scrim"></div><aside class="drawer"><div class="dhead"><div class="kk">AUDIT LOG &middot; URUT KRONOLOGIS NAIK</div><h2>#TK-1041 &mdash; Audit hak akses NAS</h2><div class="sub">status sekarang <b>IN_PROGRESS</b> &middot; 3 entri &middot; aktor terakhir ana.maria</div><span class="lock">APPEND-ONLY &middot; TANPA ENDPOINT UPDATE/DELETE</span></div><ul class="tl"><li><div class="tlt">09:12</div><div class="who bs">bs</div><div class="tlb"><div class="n">budi.santoso</div><div class="ch"><span class="code">&#8212;</span><span class="arw">&#8594;</span><span class="pill to_do sm">TO_DO</span> <span class="code" style="background:var(--line);color:var(--ink3)">DIBUAT</span></div><div class="t">task #TK-1041 &middot; 09:12</div></div></li><li><div class="tlt">09:41</div><div class="who jd">jd</div><div class="tlb"><div class="n">john.doe</div><div class="ch"><span class="pill to_do sm">TO_DO</span><span class="arw">&#8594;</span><span class="pill pending sm">PENDING</span></div><div class="t">task #TK-1041 &middot; 09:41</div></div></li><li><div class="tlt">10:00</div><div class="who am">am</div><div class="tlb"><div class="n">ana.maria</div><div class="ch"><span class="pill pending sm">PENDING</span><span class="arw">&#8594;</span><span class="pill in_progress sm">IN_PROGRESS</span></div><div class="t">task #TK-1041 &middot; 10:00</div></div></li></ul><div class="dfoot">10:04 &nbsp;ana.maria mengirim <b>in_progress</b> lagi &#8594; <span style="color:var(--ink)">200 changed:false</span> &middot; TIDAK ada entri baru (idempoten).<br>Entri ini tidak akan hilang walau task di-soft-delete kelak &#8212; jejaknya tinggal.</div></aside></div></div></div></div><div class="col"><div class="flabel"><span class="n">03</span><span class="t">ALUR UBAH STATUS</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">idempoten: nilai sama &#8594; tanpa log baru</div><div class="phone"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/tasks</div><i style="opacity:0"></i></div><div class="app"><div class="tools" style="padding:13px 26px;align-items:center"><div><div style="font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--ink3)">SATU ENDPOINT &middot; TIGA JALUR</div><div style="font:400 22px/1.2 var(--serif);margin-top:7px">Idempotensi dan atomisitas terlihat, bukan dijanjikan</div></div><span class="sp"></span><span class="code">PUT /tasks/:id/status</span></div><div class="flow"><div class="pan"><div class="ph"><div class="n">A &middot; SEBELUM</div><h4>Hanya satu langkah yang hidup</h4></div><div class="pb"><div class="card"><div class="ct">TASK</div><div class="rtop"><span class="id">#TK-1042</span><h3 style="font-size:15px">Prepare Invoice</h3><span class="pill pending">PENDING</span></div><p class="rdesc" style="margin-top:8px">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p><div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg cur"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg next"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div></div><div class="card"><div class="ct">AKSI YANG DIIZINKAN</div><div class="btn next" style="display:block;text-align:center">&#8594; KERJAKAN (in_progress)</div><div class="rule"><span class="code err">DIBLOKIR</span><span>&#8592; kembali ke <b>to_do</b> &middot; mundur tidak diizinkan</span></div><div class="rule"><span class="code err">DIBLOKIR</span><span>&#8594; lompat ke <b>done</b> &middot; langkah dilewati</span></div><div class="mnote">transisi valid: pending &#8594; in_progress (satu-satunya)</div></div><div class="toast"><span class="tk">DUA-ARAH DIMATIKAN</span><span class="td">tombol yang ilegal tidak dirender aktif</span></div></div></div><div class="pan"><div class="ph"><div class="n">B &middot; TEKAN &#8220;KERJAKAN&#8221;</div><h4>Sukses = status + log, satu paket</h4></div><div class="pb"><div class="card"><div class="ct">TASK</div><div class="rtop"><span class="id">#TK-1042</span><h3 style="font-size:15px">Prepare Invoice</h3><span class="pill in_progress">IN_PROGRESS</span></div><p class="rdesc" style="margin-top:8px">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p><div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div></div><div class="card"><div class="ct">PERMINTAAN</div><div class="kv"><span>body</span><b>{ to: "in_progress", actorId: "ana.maria" }</b></div><div class="kv"><span>respons</span><b>200 &middot; { task, log }</b></div><div class="kv"><span>efek</span><b>entri log #4 dicatat</b></div><div class="mnote">jawaban server memuat task <i>dan</i> log &#8594; FE tidak pernah menebak &rarr; tidak mungkin melenceng</div></div><div class="toast"><span class="tk">STATUS DIUBAH</span><span class="td">LOG #4 DICATAT &middot; ana.maria &middot; pending &#8594; in_progress</span></div></div></div><div class="pan"><div class="ph"><div class="n">C &middot; TEKAN LAGI (NILAI SAMA)</div><h4>Idempoten: tidak ada log hantu</h4></div><div class="pb"><div class="card"><div class="ct">TASK</div><div class="rtop"><span class="id">#TK-1042</span><h3 style="font-size:15px">Prepare Invoice</h3><span class="pill in_progress">IN_PROGRESS</span></div><p class="rdesc" style="margin-top:8px">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p><div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div></div><div class="card"><div class="ct">PERMINTAAN ULANG</div><div class="kv"><span>body</span><b>{ to: "in_progress" }</b></div><div class="kv"><span>respons</span><b><span class="code ok">200 &middot; changed:false</span></b></div><div class="kv"><span>entri log</span><b>tetap 4 &mdash; tidak bertambah</b></div><div class="mnote">keputusan: <b>200</b>, bukan 409 &#8212; no-op bukan kesalahan klien; 409 disimpan untuk transisi ilegal. Bentuk respons tetap sama (<span class="mono">log: null</span>) sehingga FE cuma punya satu jalur kode.</div></div><div class="toast warn"><span class="tk">SUDAH DI IN_PROGRESS</span><span class="td">TIDAK ADA LOG BARU &middot; changed:false &middot; entri tetap 4</span></div></div></div></div></div></div></div><div class="col"><div class="flabel"><span class="n">04</span><span class="t">ATURAN &amp; PENOLAKAN</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">lompat ditolak (409) &middot; hapus = soft delete</div><div class="phone"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/tasks</div><i style="opacity:0"></i></div><div class="app"><div class="tools" style="padding:13px 26px;align-items:center"><div><div style="font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--ink3)">ATURAN YANG TIDAK BOLEH DITEBAK UI</div><div style="font:400 22px/1.2 var(--serif);margin-top:7px">FE mempermudah, backend yang memutuskan</div></div><span class="sp"></span><span class="code">PUT /tasks/:id/status</span></div><div class="flow" style="flex:0 0 468px"><div class="pan"><div class="ph"><div class="n">A &middot; LOMPATAN DITOLAK</div><h4>to_do &#8594; done: 409</h4></div><div class="pb"><div class="card"><div class="ct">TASK</div><div class="rtop"><span class="id">#TK-1040</span><h3 style="font-size:15px">Migrasi log server</h3><span class="pill to_do">TO_DO</span></div><div class="ladder"><div class="seg cur"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg next"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg blocked"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg blocked"><div class="bar"></div><span class="lab">DONE</span></div></div><div class="mnote">arah yang diblokir digambar bergaris silang &#8212; aturan domain jadi terlihat</div></div><div class="card"><div class="ct">RESPONS</div><div class="kv"><span>kode</span><b><span class="code err">409 CONFLICT</span></b></div><div class="kv"><span>pesan</span><b>tidak boleh lompat &#8212; langkah berikutnya: pending</b></div><div class="mnote">validasi di <b>backend</b> (sumber kebenaran); FE hanya menyembunyikan tombol yang ilegal. Kalau FE di-bypass (curl), backend tetap menolak.</div></div><div class="card" style="background:var(--accent-bg);border-color:#C9D2FF"><div class="ct" style="color:var(--accent)">YANG TERJADI DI DB</div><div class="mnote" style="color:var(--ink2)">nol baris berubah, nol entri log &#8212; ditolak sebelum transaksi apa pun dibuka</div></div></div></div><div class="pan"><div class="ph"><div class="n">B &middot; HAPUS = SOFT DELETE</div><h4>Task disembunyikan, jejak tetap</h4></div><div class="pb"><div class="card" style="box-shadow:0 24px 44px -26px rgba(21,24,27,.5)"><div class="ct">KONFIRMASI</div><div style="font:400 20px/1.3 var(--serif)">Hapus <b>#TK-1038 Sinkronisasi katalog vendor</b>?</div><p class="mnote" style="font-size:12px;margin-top:10px;font-family:var(--sans);color:var(--ink2)">Task ditandai <span class="mono">deletedAt</span> dan hilang dari daftar. <b>1 entri riwayatnya tetap tersimpan permanen</b> dan tetap bisa dibaca lewat audit log.</p><div style="display:flex;gap:9px;margin-top:15px"><span class="btn gho">BATAL</span><span class="btn del" style="border-style:solid">HAPUS (SOFT)</span></div></div><div class="card"><div class="ct">SETELAH DIHAPUS</div><div class="rule"><span class="code err">404</span><span>GET &amp; PUT ke task terhapus &mdash; tidak bisa dikembalikan dari UI</span></div><div class="rule"><span class="code ok">TETAP</span><span>baris <b>audit_log</b> tidak pernah disentuh &mdash; append-only</span></div><div class="mnote">alternatif yang ditolak: hard delete &#8594; log kehilangan induknya (yatim) atau ikut terhapus (melanggar &#8220;tidak boleh dihapus dalam keadaan apa pun&#8221;)</div></div></div></div></div><div class="rfoot"><div class="rw">
+  <table class="s"><tr><th>Kode</th><th>Arti</th><th>Yang dilihat user</th></tr>
+  <tr><td><span class="code ok">200 changed:true</span></td><td>status berubah</td><td>toast + log baru + angkah maju</td></tr>
+  <tr><td><span class="code ok">200 changed:false</span></td><td>nilai sama (idempoten)</td><td>toast tenang: &#8220;sudah di status itu&#8221;, jumlah log tetap</td></tr>
+  <tr><td><span class="code err">409</span></td><td>transisi ilegal / lompat</td><td>galat sebaris di baris task, sebut langkah berikutnya</td></tr>
+  <tr><td><span class="code err">404</span></td><td>task tak ada / terhapus</td><td>baris dihapus dari layar, notice singkat</td></tr>
+  <tr><td><span class="code err">422</span></td><td>actor tak dikenal</td><td>galat di dropdown &#8220;Bertindak sebagai&#8221;</td></tr>
+  <tr><td><span class="code err">400</span></td><td>body / <span class="mono">to</span> tidak valid</td><td>galat tepat di kontrolnya, bukan toast global</td></tr></table>
+  </div>
+  <div class="rw" style="max-width:430px">
+  <div class="card"><div class="ct">URUTAN VALIDASI (backend)</div>
+  <div class="rule"><span class="code">1</span><span>body valid? &#8594; <b>400</b></span></div>
+  <div class="rule"><span class="code">2</span><span>task ada &amp; belum terhapus? &#8594; <b>404</b></span></div>
+  <div class="rule"><span class="code">3</span><span>actor ada di daftar tetap? &#8594; <b>422</b></span></div>
+  <div class="rule"><span class="code">4</span><span>from === to? &#8594; <b>200 changed:false</b> (tanpa log)</span></div>
+  <div class="rule"><span class="code">5</span><span>transisi ada di tabel? &#8594; <b>409</b></span></div>
+  <div class="rule"><span class="code">6</span><span>satu transaksi: update status + append log &#8594; <b>200</b></span></div>
+  </div></div></div></div></div></div><div class="col"><div class="flabel"><span class="n">05</span><span class="t">PONSEL 390</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">tata letak menyempit, aturan tidak berubah</div><div class="phone mob"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/m</div><i style="opacity:0"></i></div><div class="app" style="max-width:390px"><header class="mast">
+  <div class="mbrand"><div class="k">MINI TASK MANAGER · INTERNAL</div><h1>Task Ledger</h1></div>
+  <div class="mstats"><span class="b"></span><span class="c"></span></div>
+  <div class="mactor"><label>BERTINDAK SEBAGAI</label>
+    <div class="select">john.doe <b>&#9662;</b></div>
+    <div class="h">actor dari daftar tetap &middot; server menolak <b style="font-family:var(--mono)">422</b> kalau tak dikenal</div>
+  </div>
+</header><div class="tools"><span class="chip on">Semua <b>2</b></span><span class="chip">TO_DO <b>0</b></span><span class="chip">PENDING <b>1</b></span><span class="chip">IN_PROGRESS <b>1</b></span><span class="chip">DONE <b>0</b></span><span class="sp"></span>
+  <span class="search">cari judul / #id&#8230;</span><span class="btn pri">+ TASK BARU</span></div><div class="body"><div class="main"><div class="list"><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1042</span><h3>Prepare Invoice</h3><span class="pill pending">PENDING</span></div>
+    <p class="rdesc">Rekap tagihan Q1 untuk vendor percetakan — tunggu konfirmasi finance.</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg cur"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg next"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta"><b>john.doe</b> <span class="mv">to_do &#8594; pending</span> &middot; 09:41 &middot; 3 log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; KERJAKAN</span><span class="btn gho">RIWAYAT (3)</span><span class="btn del">HAPUS</span></div>
+</article><article class="row">
+  <div class="rmain">
+    <div class="rtop"><span class="id">#TK-1041</span><h3>Audit hak akses NAS</h3><span class="pill in_progress">IN_PROGRESS</span></div>
+    <p class="rdesc">Cek akun yang masih aktif setelah rotasi tim infra (12 akun).</p>
+    <div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div>
+    <div class="rmeta"><b>ana.maria</b> <span class="mv">pending &#8594; in_progress</span> &middot; 10:00 &middot; 4 log</div>
+  </div>
+  <div class="ract"><span class="btn next">&#8594; SELESAIKAN</span><span class="btn gho">RIWAYAT (4)</span><span class="btn del">HAPUS</span></div>
+</article></div><div class="lfoot"><b>PONSEL:</b> 2 dari 4 task (potongan) &middot; angkah tetap 4 langkah &middot; riwayat jadi sheet penuh, bukan kolom samping</div></div></div></div></div></div><div class="col"><div class="flabel"><span class="n">06</span><span class="t">DATA &amp; KONTRAK</span></div><div style="font-size:12px;color:var(--ink3);margin:-2px 0 2px;max-width:1290px">skema, relasi, dan enam jalur HTTP &#8212; alasan strukturnya</div><div class="phone wide"><div class="wtop"><i></i><i></i><i></i><div class="url">task-ledger.internal/tasks</div><i style="opacity:0"></i></div><div class="app"><div class="tools" style="padding:13px 26px;align-items:center"><div><div style="font:600 10.5px/1 var(--mono);letter-spacing:.2em;color:var(--ink3)">DATA &amp; KONTRAK</div><div style="font:400 22px/1.2 var(--serif);margin-top:7px">Yang dinilai struktur &#8212; jadi strukturnya digambar</div></div><span class="sp"></span><span class="code">PUT /tasks/:id/status</span></div><div class="flow"><div class="pan"><div class="ph"><div class="n">A &middot; SKEMA</div><h4>Tiga tabel, satu arah tulis</h4></div><div class="pb"><div class="card"><div class="ct">TASKS</div><div class="kv"><span>id</span><b>TEXT PK &middot; TK-1042</b></div><div class="kv"><span>title</span><b>TEXT NOT NULL</b></div><div class="kv"><span>description</span><b>TEXT</b></div><div class="kv"><span>status</span><b>TEXT CHECK &middot; 4 nilai</b></div><div class="kv"><span>created_at / updated_at</span><b>TEXT ISO-8601</b></div><div class="kv"><span>deleted_at</span><b>TEXT NULL &middot; soft delete</b></div></div><div class="card"><div class="ct">AUDIT_LOGS &middot; APPEND-ONLY</div><div class="kv"><span>id</span><b>INTEGER PK AUTOINCREMENT</b></div><div class="kv"><span>task_id</span><b>TEXT FK &rarr; tasks.id</b></div><div class="kv"><span>task_title</span><b><span class="snapshot">snapshot</span> saat kejadian</b></div><div class="kv"><span>actor_id / actor_name</span><b><span class="snapshot">snapshot</span></b></div><div class="kv"><span>from_status / to_status</span><b>TEXT</b></div><div class="kv"><span>created_at</span><b>TEXT &middot; urut naik</b></div><div class="mnote">tanpa kolom <span class="mono">updated_at</span> &#8212; memang tidak pernah diubah. Ditegakkan trigger: <span class="mono">BEFORE UPDATE/DELETE &rarr; RAISE(ABORT)</span></div></div><div class="card"><div class="ct">ACTORS &middot; DAFTAR TETAP</div><div class="kv"><span>id / name</span><b>john.doe &middot; ana.maria &middot; budi.santoso</b></div><div class="mnote">diseed dari konstanta di paket <span class="mono">shared</span> &#8212; dropdown FE dan validasi BE membaca daftar yang sama</div></div><div class="card"><div class="ct">DI BALIK INTERFACE</div><div class="kv"><span>adapter hari ini</span><b>sqlite &middot; 1 berkas, transaksi nyata</b></div><div class="kv"><span>kalau perlu Postgres</span><b>1 berkas adapter baru &#8212; domain tetap</b></div></div></div></div><div class="pan"><div class="ph"><div class="n">B &middot; RELASI</div><h4>Log menempel ke task, tapi mandiri</h4></div><div class="pb"><pre class="erd">TASKS                 AUDIT_LOGS                    ACTORS
++--------------+      +-------------------+        +-----------+
+| id        PK |1    *| id             PK |      1 | id     PK |
+| title        |------| task_id       FK  |--------| name      |
+| status       |      | task_title    ... |        +-----------+
+| created_at   |      | actor_id      FK  |-------------+
+| updated_at   |      | actor_name    ... |             |
+| deleted_at   |      | from_status       |   ... = snapshot
++--------------+      | to_status         |   (disalin saat kejadian)
+                      | created_at        |
+                      +-------------------+
+                      append-only · tanpa UPDATE/DELETE</pre><div class="card"><div class="ct">MENGAPA DIDENORMALISASI</div><div class="note">Judul task bisa berubah, task bisa di-soft-delete. Kalau log hanya menyimpan <span class="mono">task_id</span>, jejaknya jadi yatim dan tak terbaca. Karena itu judul &amp; nama aktor <b>disalin</b> ke baris log: satu baris log = satu pernyataan yang tetap terbaca, apa pun yang terjadi pada task-nya.</div></div><div class="card"><div class="ct">KONSISTENSI</div><div class="note">Status di <span class="mono">tasks</span> dan baris di <span class="mono">audit_logs</span> hanya berubah di dalam <b>satu transaksi</b> (<span class="mono">BEGIN &hellip; COMMIT</span>): gagal menulis log &rarr; status dibatalkan. Tidak ada jendela waktu di mana keduanya berbeda.</div></div><div class="card"><div class="ct">URUTAN &amp; INDEKS</div><div class="kv"><span>urut</span><b>created_at ASC &middot; naik, sesuai permintaan</b></div><div class="kv"><span>indeks</span><b>audit_logs(task_id, created_at)</b></div><div class="mnote">kronologis dilayani indeks, bukan sort di memori</div></div></div></div><div class="pan"><div class="ph"><div class="n">C &middot; KONTRAK HTTP</div><h4>Enam jalur, tak satu pun menghapus log</h4></div><div class="pb"><table class="s"><tr><th>Metode</th><th>Jalur</th><th>Sukses</th><th>Catatan</th></tr>
+  <tr><td>POST</td><td class="mono">/tasks</td><td>201</td><td>langsung menulis log &#8220;dibuat&#8221;</td></tr>
+  <tr><td>GET</td><td class="mono">/tasks</td><td>200</td><td>task terhapus tidak ikut</td></tr>
+  <tr><td>GET</td><td class="mono">/tasks/:id</td><td>200</td><td>404 kalau terhapus</td></tr>
+  <tr><td>PUT</td><td class="mono">/tasks/:id/status</td><td>200</td><td>changed true|false &middot; 409 | 422</td></tr>
+  <tr><td>GET</td><td class="mono">/tasks/:id/audit-logs</td><td>200</td><td>urut kronologis naik</td></tr>
+  <tr><td>DELETE</td><td class="mono">/tasks/:id</td><td>204</td><td>soft delete &middot; log tidak disentuh</td></tr></table><div class="card" style="background:var(--accent-bg);border-color:#C9D2FF"><div class="ct" style="color:var(--accent)">YANG SENGAJA TIDAK ADA</div><div class="rule"><span class="code err">TIDAK ADA</span><span class="mono">PUT /audit-logs/:id</span></div><div class="rule"><span class="code err">TIDAK ADA</span><span class="mono">DELETE /audit-logs/:id</span></div><div class="note" style="margin-top:9px">Ketiadaan endpoint itu <b>dipilih</b>, bukan terlupa &#8212; dan tetap ditegakkan trigger di DB kalau ada kode yang mencoba menembusnya.</div></div><div class="card"><div class="ct">SATU SUMBER TIPE</div><div class="note"><span class="mono">packages/shared</span> memuat <span class="mono">Status</span>, <span class="mono">TRANSITIONS</span>, <span class="mono">ACTORS</span>, DTO, dan skema zod. FE &amp; BE mengimpor berkas yang <b>sama</b> &#8212; bukan dua definisi yang kebetulan mirip.</div></div></div></div></div></div></div></div></div>
+
+<section class="spec">
+  <div class="shead">
+    <div class="k">SPESIFIKASI DESAIN &middot; MOCKUP INI ADALAH ARTEFAK KEPUTUSAN</div>
+    <h2>&#8220;Task Ledger&#8221; &#8212; editorial-swiss, terang</h2>
+    <p>Mengapa bukan dashboard kartu: tugas ini menilai <b>kejelasan perubahan</b>. Maka hierarki visual dibuat mengikuti
+    satu pertanyaan pengguna &#8212; <i>&#8220;siapa mengubah apa, kapan&#8221;</i> &#8212; dan setiap keputusan backend
+    (idempoten, append-only, satu langkah) punya wujud visualnya. Semua kontras diambil dari ukuran &amp; bobot huruf,
+    bukan dari dekorasi; hanya satu warna aksen (indigo) di luar warna semantik status.</p>
+  </div>
+
+  <div class="sc"><div class="tag">D1 &middot; ARAH</div><h3>Latar kertas, bukan kanvas gelap</h3>
+    <p>Alat internal yang dibaca berjam-jam sambil bekerja: kontras gelap-terang tinggi di siang hari, dan tidak memaksa
+    mode gelap. Kesan &#8220;ledger&#8221; dicapai dari muka serif + garis tipis + ritme, bukan dari gradien atau bayangan tebal.</p>
+    <ul><li>Judul: serif besar (Iowan/Georgia) &#8212; memberi karakter, bukan font bawaan</li>
+    <li>Data (waktu, #id, enum status): monospace &#8212; angka sejajar kolom, mudah dibandingkan</li>
+    <li>Teks UI: grotesque sistem &#8212; netral, cepat dipindai</li></ul></div>
+
+  <div class="sc"><div class="tag">D2 &middot; SKALA TIPOGRAFI</div><h3>Kontras ukuran, bukan seragam</h3>
+    <table class="s"><tr><th>Peran</th><th>Ukuran</th><th>Muka</th></tr>
+    <tr><td>Judul halaman</td><td><b>46&ndash;52</b></td><td>serif</td></tr>
+    <tr><td>Angka besar (gerakan)</td><td><b>62</b></td><td>serif</td></tr>
+    <tr><td>Judul task</td><td><b>19</b></td><td>grotesque 600</td></tr>
+    <tr><td>Deskripsi</td><td>13</td><td>grotesque</td></tr>
+    <tr><td>Metadata</td><td>11.5</td><td>mono</td></tr>
+    <tr><td>Label/eyebrow</td><td>10.5</td><td>mono, renggang .16em</td></tr></table></div>
+
+  <div class="sc"><div class="tag">D3 &middot; PALET SEMANTIK</div><h3>Warna = keadaan, bukan hiasan</h3>
+    <table class="s"><tr><th>Status</th><th>Warna</th><th>Alasan</th></tr>
+    <tr><td><span class="sw" style="background:#6B7280"></span>TO_DO</td><td><span class="mono">#6B7280</span></td><td>belum bergerak: netral</td></tr>
+    <tr><td><span class="sw" style="background:#9A6A05"></span>PENDING</td><td><span class="mono">#9A6A05</span></td><td>menunggu: hangat, &#8220;perhatikan&#8221;</td></tr>
+    <tr><td><span class="sw" style="background:#1D4ED8"></span>IN_PROGRESS</td><td><span class="mono">#1D4ED8</span></td><td>sedang jalan: satu-satunya biru &#8220;aktif&#8221;</td></tr>
+    <tr><td><span class="sw" style="background:#166534"></span>DONE</td><td><span class="mono">#166534</span></td><td>selesai: hijau redup, tidak berteriak</td></tr>
+    <tr><td><span class="sw" style="background:#1F3DFF"></span>Aksen</td><td><span class="mono">#1F3DFF</span></td><td>hanya: langkah berikutnya, fokus, aksi utama</td></tr></table>
+    <p class="mono" style="margin-top:9px">Warna tidak pernah jadi satu-satunya penanda: selalu ada label teks (aksesibilitas buta warna).</p></div>
+
+  <div class="sc"><div class="tag">D4 &middot; ELEMEN TANDA TANGAN</div><h3>Angkah 4 langkah</h3>
+    <p>Status bukan sekadar pil di kanan baris; ia digambar sebagai <b>angkah berurutan</b> dengan satu segmen bergaris
+    putus di langkah berikutnya. Tiga hal sekaligus jadi terlihat tanpa teks panjang:</p>
+    <ul><li>posisi sekarang (segmen penuh beraksen)</li>
+    <li>satu-satunya langkah yang boleh diambil (garis putus + panah)</li>
+    <li>langkah di belakangnya terkunci &#8212; alasan &#8220;kenapa tidak bisa mundur&#8221; tidak perlu dijelaskan lagi</li></ul>
+    <div style="margin-top:10px"><div class="ladder"><div class="seg done"><div class="bar"></div><span class="lab">TO_DO</span></div><div class="seg done"><div class="bar"></div><span class="lab">PENDING</span></div><div class="seg cur"><div class="bar"></div><span class="lab">IN_PROGRESS</span></div><div class="seg next"><div class="bar"></div><span class="lab">DONE</span></div></div></div></div>
+
+  <div class="sc"><div class="tag">D5 &middot; RITME &amp; KEDALAMAN</div><h3>Spasi tidak seragam, tapi berirama</h3>
+    <ul><li>Jarak antar-blok 26/34/52 &#8212; bukan padding seragam di semua tempat</li>
+    <li>Garis rambut 1px + bayangan lembut; kedalaman dari lapisan (drawer di atas daftar), bukan blur</li>
+    <li>Titik kertas halus di latar &#8212; tekstur, bukan gradien</li>
+    <li>Baris hover: kartu terangkat + simpul di tulang ledger menebal &#8212; keadaan hover memang dirancang</li></ul></div>
+
+  <div class="sc"><div class="tag">D6 &middot; RESPONSIF</div><h3>Satu domain, dua tata letak</h3>
+    <ul><li>&ge;1080: daftar + panel riwayat 486px di kanan</li>
+    <li>720&ndash;1080: daftar penuh, riwayat jadi drawer dari kanan</li>
+    <li>&lt;720: angkah tetap 4 langkah (label mengecil, tidak disembunyikan), riwayat jadi sheet penuh</li></ul></div>
+
+  <div class="sc"><div class="tag">D7 &middot; AKSESIBILITAS</div><h3>Terpakai tanpa mouse, terbaca tanpa warna</h3>
+    <ul><li>Fokus keyboard terlihat (cincin aksen 3px) pada dropdown aktor &amp; tombol aksi</li>
+    <li>Perubahan status diumumkan lewat <span class="mono">aria-live="polite"</span> (toast = pengumuman)</li>
+    <li>Angkah memakai <span class="mono">role="list"</span> + label teks; bukan bilah warna tanpa makna</li>
+    <li>Kontras teks &ge; 4.5:1 (warna status dipilih sudah aman di atas latar kertas)</li></ul></div>
+
+  <div class="sc wide"><div class="tag">D8 &middot; GERAK</div><h3>Gerak menjelaskan, tidak menghibur</h3>
+    <ul><li>Hanya <span class="mono">transform</span>/<span class="mono">opacity</span>, 120&ndash;180ms</li>
+    <li>Toast masuk 160ms, tidak ada animasi yang menunda aksi pengguna</li>
+    <li><span class="mono">prefers-reduced-motion</span>: animasi mati, keadaan tetap terlihat dari warna/teks</li>
+    <li>Angkah yang maju bergerak 1 langkah saja &#8212; perubahan kecil supaya mata tetap bisa mengikuti, bukan kilat penuh layar</li>
+    <li>Tidak ada animasi dekoratif di latar: ini alat kerja, bukan presentasi</li></ul></div>
+
+  <div class="sc wide"><div class="tag">D9 &middot; KEPUTUSAN YANG SUDAH DIKUNCI (masuk proposal OpenSpec)</div><h3>Backend</h3>
+    <table class="s"><tr><th>#</th><th>Keputusan</th><th>Wujud di UI</th></tr>
+    <tr><td>1</td><td><b>SQLite lewat node:sqlite</b> (bawaan Node &ge;22.5) di balik interface repository &#8594; Postgres tinggal ganti adapter</td><td>&mdash;</td></tr>
+    <tr><td>2</td><td><b>Satu langkah, tanpa lompat</b>; tabel transisi sebagai data</td><td>angkah + tombol berikutnya</td></tr>
+    <tr><td>3</td><td><b>Soft delete</b> (<span class="mono">deletedAt</span>); audit log tidak pernah disentuh</td><td>dialog hapus + footer riwayat</td></tr>
+    <tr><td>4</td><td><b>Koleksi audit terpisah</b> + <span class="mono">taskTitle</span>/<span class="mono">actorName</span> didenormalisasi</td><td>timeline tetap terbaca setelah task dihapus</td></tr>
+    <tr><td>5</td><td><b>Idempoten &#8594; 200 changed:false</b>, 409 hanya untuk transisi ilegal</td><td>frame 03 panel C</td></tr>
+    <tr><td>6</td><td>Aktor dari <b>daftar tetap</b>, divalidasi server (422)</td><td>dropdown &#8220;Bertindak sebagai&#8221;</td></tr>
+    <tr><td>7</td><td><b>Paket <span class="mono">shared</span></b> = satu sumber tipe/enum/transisi untuk FE &amp; BE</td><td>status &amp; aturan sama di dua sisi</td></tr>
+    <tr><td>8</td><td>FE <b>tidak</b> optimistis; memakai <span class="mono">{task, log}</span> dari respons</td><td>angka log &amp; angkah selalu sinkron</td></tr>
+    <tr><td>9</td><td>Test mengunci invariant: append-only, atomik, idempoten, tiap transisi</td><td>&mdash;</td></tr></table></div>
+
+  <div class="sc"><div class="tag">D10 &middot; YANG SENGAJA TIDAK DIBUAT</div><h3>Batas lingkup</h3>
+    <ul><li>Tidak ada auth/role/permission &#8212; diminta eksplisit di luar lingkup</li>
+    <li>Tidak ada drag &amp; drop status (godaan yang merusak aturan satu langkah)</li>
+    <li>Tidak ada dark mode, notifikasi, komentar, lampiran</li>
+    <li>Tidak ada pagination: daftar internal, jumlah kecil</li></ul>
+    <p class="mono" style="margin-top:9px">Ditulis di README sebagai &#8220;non-goals&#8221; &#8212; menunjukkan pemikiran, bukan kekurangan.</p></div>
+</section>
+</body></html>

@@ -1,0 +1,30 @@
+{
+  "name": "@mtm/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend Task Ledger — Express + SQLite (node:sqlite) + aturan domain di lapisan service",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "seed": "tsx src/seed.ts",
+    "e2e:server": "rm -f data/e2e.db data/e2e.db-journal && DB_PATH=data/e2e.db tsx src/seed.ts && DB_PATH=data/e2e.db tsx src/index.ts",
+    "db:reset": "rm -f data/app.db data/app.db-journal data/app.db-wal data/app.db-shm && tsx src/seed.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@mtm/shared": "*",
+    "express": "^4.21.2",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.0",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "mini-task-manager",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mini Task Manager 'Task Ledger' — daftar task + audit log append-only",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "workspaces": [
+    "packages/*",
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "npm run dev -w server",
+    "dev:web": "npm run dev -w web",
+    "seed": "npm run seed -w server",
+    "db:reset": "npm run db:reset -w server",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "typescript": "^5.9.0"
+  }
+}
